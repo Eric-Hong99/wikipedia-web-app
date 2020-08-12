@@ -1,0 +1,52 @@
+.WikiApp nav {
+  background-color:#242424;
+  display: flex;
+  justify-content: space-between;
+}
+
+.WikiApp ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+
+.WikiApp li {
+  display: inline-block;
+  padding: 20px;
+}
+
+.WikiApp a {
+  text-decoration: none;
+  color: white;
+}
+
+.WikiApp p.logo {
+  margin: 20px;
+  color: white;
+}
+
+.WikiApp #description {
+  /* margin: 80%; */
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* width: 100%; */
+  /* width: 250px; */
+  text-align: center;
+
+  background-color: yellow;
+}
+
+.WikiApp a:hover {
+  color:#38cae0;
+}
+
+.WikiApp li:active {
+  background-color: rgba(255,255,255,.3);
+}
+
+.WikiApp .active {
+    color:#38cae0;
+    text-decoration: underline;
+}
