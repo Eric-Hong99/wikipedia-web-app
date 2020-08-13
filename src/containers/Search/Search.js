@@ -11,6 +11,7 @@ const Search = (props) => {
   const [loading, setLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [URL, setURL] = useState('');
   
   useEffect(() => {
     console.log(props);
@@ -21,6 +22,9 @@ const Search = (props) => {
 
   const handleSubmit = (e, entry) => {
     e.preventDefault();
+    let title = '';
+    let content = '';
+    let pageid = '';
     if (entry !== '') {
       setLoading(true);
       axios.get('http://en.wikipedia.org/w/api.php',{
@@ -28,6 +32,7 @@ const Search = (props) => {
           format: "json",
           action: "query",
           prop: "extracts",
+          exsectionformat: "plain",
           exsentences: 10,
           exlimit: 1,
           titles: entry,
@@ -37,12 +42,13 @@ const Search = (props) => {
         }
       })
         .then((res) => {
-          let title = res.data["query"]["pages"][0]["title"];
-          let content = res.data["query"]["pages"][0]["extract"];
-          console.log('content', content);
-          console.log('title', title);
+          let page = res.data["query"]["pages"][0]
+          title = page["title"];
+          content = page["extract"];
+          pageid = page["pageid"];
           setTitle(title);
           setContent(content);
+          setURL(`https://en.wikipedia.org/wiki?curid=${pageid}`);
           props.history.push(props.match.url + `/${entry}`)
           setLoading(false);
         })
@@ -66,6 +72,7 @@ const Search = (props) => {
               <Article 
               title={title}
               content={content}
+              url={URL}
             />
             )}/>
       }
