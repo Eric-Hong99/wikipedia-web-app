@@ -8,6 +8,7 @@ const Content = (props) => (
       <a 
         id="title"
         href={props.url}
+        rel="noopener noreferrer"
         target="_blank"
         >
         {props.title}

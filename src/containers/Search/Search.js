@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import SearchForm from '../../components/SearchForm/SearchForm';
 import Article from '../../components/Article/Article';
 
@@ -14,9 +14,10 @@ const Search = (props) => {
   const [URL, setURL] = useState('');
   
   useEffect(() => {
-    console.log(props);
+    console.log('[Search.js] Mounted');
+    // console.log(props);
     return () => (
-      console.log('unmounted')
+      console.log('[Search.js] Unmounted')
     )
   });
 
@@ -46,10 +47,15 @@ const Search = (props) => {
           title = page["title"];
           content = page["extract"];
           pageid = page["pageid"];
-          setTitle(title);
-          setContent(content);
-          setURL(`https://en.wikipedia.org/wiki?curid=${pageid}`);
-          props.history.push(props.match.url + `/${entry}`)
+          if (content !== '') {
+            setTitle(title);
+            setContent(content);
+            setURL(`https://en.wikipedia.org/wiki?curid=${pageid}`);
+            props.history.push(props.match.url + `/${entry}`)
+          }
+          else {
+            props.history.push(props.match.url + '/invalid');
+          }
           setLoading(false);
         })
         .catch((err) => {
@@ -62,19 +68,29 @@ const Search = (props) => {
   return (
     <div>
       <h2>Search for (almost) anything! </h2>
-      <SearchForm submit={handleSubmit} submitText="Search!"/>
+        <SearchForm submit={handleSubmit} submitText="Search!"/>
       {loading
-        ? <p>Loading...</p>
-        : <Route 
-            path={props.match.url + '/:title'} 
-            exact 
+        ? <p style={{ textAlign: "center", marginTop: "30px" }}>Loading...</p>
+        : (
+        <Switch>
+          <Route
+            path={props.match.url + '/invalid'}
+            exact
+            render={() => (
+              <p style={{ textAlign: "center", margin: "30px" }}>Sorry, the topic you've searched for had no results :(</p>
+            )}
+            />
+          <Route 
+            path={props.match.url + '/:title'}  
             render={() => (
               <Article 
               title={title}
               content={content}
               url={URL}
-            />
+                />
             )}/>
+        </Switch>
+        ) 
       }
     </div>
   )
