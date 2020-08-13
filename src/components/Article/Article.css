@@ -9,3 +9,8 @@
   text-align: center;
   width: 70%
 }
+
+.Article #title {
+  text-decoration: underline;
+  color: blue;
+}

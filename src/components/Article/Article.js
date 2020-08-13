@@ -4,7 +4,15 @@ import './Article.css';
 
 const Content = (props) => (
   <div className="Article">
-    <h1>{props.title}</h1>
+    <h1>
+      <a 
+        id="title"
+        href={props.url}
+        target="_blank"
+        >
+        {props.title}
+      </a>
+    </h1>
     <p>{props.content}</p>
   </div>
 );
