@@ -1,7 +1,12 @@
 import React from 'react';
 
-const content = (props) => (
-  <h3>Content</h3>
+import './Article.css';
+
+const Content = (props) => (
+  <div className="Article">
+    <h1>{props.title}</h1>
+    <p>{props.content}</p>
+  </div>
 );
 
-export default content;
+export default Content;
