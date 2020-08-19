@@ -15,7 +15,6 @@ const Search = (props) => {
   
   useEffect(() => {
     console.log('[Search.js] Mounted');
-    // console.log(props);
     return () => (
       console.log('[Search.js] Unmounted')
     )
@@ -25,7 +24,7 @@ const Search = (props) => {
     e.preventDefault();
     let title = '';
     let content = '';
-    let pageid = '';
+    let url = '';
     if (entry !== '') {
       setLoading(true);
       axios.get('http://en.wikipedia.org/w/api.php',{
@@ -46,11 +45,24 @@ const Search = (props) => {
           let page = res.data["query"]["pages"][0]
           title = page["title"];
           content = page["extract"];
-          pageid = page["pageid"];
+          url = `https://en.wikipedia.org/wiki?curid=${page["pageid"]}`;
+          // Success 
+          // Doesn't catch the case where title is a bad page
           if (content !== '') {
             setTitle(title);
             setContent(content);
-            setURL(`https://en.wikipedia.org/wiki?curid=${pageid}`);
+            setURL(url);
+
+            // Update localStorage
+            const history = JSON.parse(localStorage.getItem('history'));
+            const article = {
+              title: title,
+              url: url,
+              content: content,
+            }
+            history.unshift(article);
+            localStorage.setItem('history', JSON.stringify(history));
+
             props.history.push(props.match.url + `/${entry}`)
           }
           else {

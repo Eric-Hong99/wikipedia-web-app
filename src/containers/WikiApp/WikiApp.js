@@ -7,6 +7,13 @@ import History from '../History/History';
 import './WikiApp.css';
 
 const WikiApp = (props) => {
+  // Logic for setting up localStorage
+  // window.localStorage.clear()
+  if (localStorage.getItem('history') === null) {
+    const historyMap = []
+    localStorage.setItem('history', JSON.stringify(historyMap));
+  }
+
   return (
     // This section will always be present, no matter the route
     <div className="WikiApp">
